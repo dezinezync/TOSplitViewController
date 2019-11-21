@@ -289,6 +289,8 @@ showSecondaryViewController:(UIViewController *)viewController
  */
 @property (nonatomic, assign) CGFloat separatorStatusBarClipWidth;
 
+@property (nonatomic, assign) BOOL primaryColumnIsHidden;
+
 /**
  * Create a new split view controller instance. Provide the view controllers, in order
  * from left to right.

@@ -527,6 +527,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
 - (void)layoutViewControllersForBoundsSize:(CGSize)size
 {
     NSInteger numberOfColumns = self.visibleViewControllers.count;
+    
     if (numberOfColumns == 0) {
         return;
     }
@@ -537,23 +538,27 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
     UIViewController *primaryController = self.primaryViewController;
     UIViewController *secondaryController = self.secondaryViewController;
     UIViewController *detailController = self.detailViewController;
-
+    
     // Laying out three columns
     if (numberOfColumns == 3) {
         CGFloat idealPrimaryWidth = self.primaryColumnMinimumWidth;
         CGFloat idealSecondaryWidth = self.secondaryColumnMinimumWidth;
         CGFloat idealDetailWidth = self.detailColumnMinimumWidth;
+        
+        if (self.primaryColumnIsHidden == YES) {
+            idealPrimaryWidth = 0.f;
+        }
 
         // Work out the percentage width of each element
         CGFloat totalWidth = idealPrimaryWidth + idealSecondaryWidth + idealDetailWidth;
 
         // Update the frames for each controller
         frame.size = size;
-        frame.size.width = ceilf((idealPrimaryWidth / totalWidth) * size.width);
+        frame.size.width = MIN(ceilf((idealPrimaryWidth / totalWidth) * size.width), self.primaryColumnMaximumWidth);
         primaryController.view.frame = frame;
 
         frame.origin.x = CGRectGetMaxX(frame);
-        frame.size.width = ceilf((idealSecondaryWidth / totalWidth) * size.width);
+        frame.size.width = MIN(ceilf((idealSecondaryWidth / totalWidth) * size.width), self.secondaryColumnMaximumWidth);
         secondaryController.view.frame = frame;
 
         frame.origin.x = CGRectGetMaxX(frame);
@@ -578,7 +583,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
         CGFloat idealPrimaryWidth = (size.width * self.preferredPrimaryColumnWidthFraction);
         idealPrimaryWidth = MAX(self.primaryColumnMinimumWidth, idealPrimaryWidth);
         idealPrimaryWidth = MIN(self.primaryColumnMaximumWidth, idealPrimaryWidth);
-
+        
         frame.size = size;
         frame.size.width = floorf(idealPrimaryWidth);
         primaryController.view.frame = frame;
@@ -954,6 +959,15 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
 }
 
 #pragma mark - Accessors -
+
+- (void)setPrimaryColumnIsHidden:(BOOL)primaryColumnIsHidden {
+    
+    _primaryColumnIsHidden = primaryColumnIsHidden;
+    
+    [self layoutSplitViewControllerContentForSize:self.view.bounds.size];
+    
+}
+
 - (void)setDelegate:(id<TOSplitViewControllerDelegate>)delegate
 {
     if (delegate == _delegate) { return; }

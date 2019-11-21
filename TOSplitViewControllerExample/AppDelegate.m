@@ -34,6 +34,9 @@
     NSArray *controllers = @[primaryNavController, secondaryNavController, detailNavController];
     TOSplitViewController *splitViewController = [[TOSplitViewController alloc] initWithViewControllers:controllers];
     splitViewController.delegate = self;
+    
+    splitViewController.primaryColumnMaximumWidth = 298.f;
+    splitViewController.secondaryColumnMaximumWidth = 375.f;
 
     self.window.rootViewController = splitViewController;
     [self.window makeKeyAndVisible];

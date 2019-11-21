@@ -8,6 +8,7 @@
 
 #import "SecondaryViewController.h"
 #import "TOSplitViewController.h"
+#import "DetailViewController.h"
 
 @interface SecondaryViewController ()
 
@@ -37,6 +38,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Secondary";
+    
+    UIImage *image = [UIImage systemImageNamed:@"sidebar.left"];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(didTapSidebarButton:)];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,7 +88,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DetailViewController *detailController = [[DetailViewController alloc] init];
+    UINavigationController *detailNavController = [[UINavigationController alloc] initWithRootViewController:detailController];
+    
+    [self.to_splitViewController to_showDetailViewController:detailNavController sender:self];
+}
 
+#pragma mark - Actions
+
+- (void)didTapSidebarButton:(UIBarButtonItem *)sender {
+    
+    self.to_splitViewController.primaryColumnIsHidden = !self.to_splitViewController.primaryColumnIsHidden;
+    
 }
 
 @end
