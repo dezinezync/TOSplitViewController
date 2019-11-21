@@ -291,6 +291,9 @@ showSecondaryViewController:(UIViewController *)viewController
 
 @property (nonatomic, assign) BOOL primaryColumnIsHidden;
 
+/// The duration to use when animating the primary column collapse animation. Default: 250ms
+@property (nonatomic, assign) NSTimeInterval collapseAnimationDuration;
+
 /**
  * Create a new split view controller instance. Provide the view controllers, in order
  * from left to right.

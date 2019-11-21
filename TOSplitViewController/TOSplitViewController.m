@@ -101,6 +101,8 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
     _maximumNumberOfColumns = 3;
 
     _separatorStrokeColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
+    
+    _collapseAnimationDuration = 0.25;
 }
 
 #pragma mark - View Lifecylce -
@@ -522,6 +524,23 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
     [controller.view removeFromSuperview];
     [controller didMoveToParentViewController:nil];
     return controller;
+}
+
+- (void)layoutSplitViewControllerContentForSize:(CGSize)size animated:(BOOL)animated {
+    
+    if (animated && self.collapseAnimationDuration > 0) {
+        
+        [UIView animateWithDuration:self.collapseAnimationDuration animations:^{
+           
+            [self layoutSplitViewControllerContentForSize:size];
+            
+        }];
+        
+    }
+    else {
+        [self layoutSplitViewControllerContentForSize:size];
+    }
+    
 }
 
 - (void)layoutViewControllersForBoundsSize:(CGSize)size
@@ -964,7 +983,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
     
     _primaryColumnIsHidden = primaryColumnIsHidden;
     
-    [self layoutSplitViewControllerContentForSize:self.view.bounds.size];
+    [self layoutSplitViewControllerContentForSize:self.view.bounds.size animated:YES];
     
 }
 

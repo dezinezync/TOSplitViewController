@@ -53,7 +53,7 @@
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         
-        if (newCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        if (self.to_splitViewController.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
             UIImage *image = [UIImage systemImageNamed:@"sidebar.left"];
             
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(didTapSidebarButton:)];
