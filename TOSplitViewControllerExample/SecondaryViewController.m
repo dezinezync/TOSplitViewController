@@ -38,17 +38,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Secondary";
-    
-    UIImage *image = [UIImage systemImageNamed:@"sidebar.left"];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(didTapSidebarButton:)];
-    
+    self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     NSLog(@"Secondary will appear");
+}
+
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        
+        if (newCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+            UIImage *image = [UIImage systemImageNamed:@"sidebar.left"];
+            
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(didTapSidebarButton:)];
+        }
+        else {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
+        
+    } completion:nil];
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
