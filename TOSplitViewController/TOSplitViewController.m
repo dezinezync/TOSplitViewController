@@ -109,7 +109,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor systemBackgroundColor];
 
     self.horizontalSizeClass = self.view.traitCollection.horizontalSizeClass;
     self.visibleViewControllers = [NSMutableArray arrayWithArray:self.viewControllers];
@@ -123,7 +123,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
     NSMutableArray *separators = [NSMutableArray array];
     for (NSInteger i = 0; i < 2; i++) {
         UIView *view = [[UIView alloc] init];
-        view.backgroundColor = self.separatorStrokeColor;
+        view.backgroundColor = UIColor.separatorColor;
         [separators addObject:view];
     }
     self.separatorViews = [NSArray arrayWithArray:separators];
@@ -586,11 +586,12 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
 
         // Set the size classes for each controller
         UITraitCollection *horizontalSizeClassCompact = [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassCompact];
+        UITraitCollection *interfaceStyleFromSelf = [UITraitCollection traitCollectionWithUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
 
-        UITraitCollection *primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact]];
+        UITraitCollection *primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
         [self setOverrideTraitCollection:primaryTraitCollection forChildViewController:primaryController];
 
-        UITraitCollection *secondaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[secondaryController.traitCollection, horizontalSizeClassCompact]];
+        UITraitCollection *secondaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[secondaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
         [self setOverrideTraitCollection:secondaryTraitCollection forChildViewController:secondaryController];
 
         // Update the layout
@@ -612,8 +613,9 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
         detailController.view.frame = frame;
 
         UITraitCollection *horizontalSizeClassCompact = [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassCompact];
+        UITraitCollection *interfaceStyleFromSelf = [UITraitCollection traitCollectionWithUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
 
-        UITraitCollection *primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact]];
+        UITraitCollection *primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
         [self setOverrideTraitCollection:primaryTraitCollection forChildViewController:primaryController];
 
         [primaryController.view layoutIfNeeded];

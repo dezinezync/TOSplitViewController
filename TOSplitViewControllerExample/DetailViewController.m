@@ -24,10 +24,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor systemBackgroundColor];
 
     self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.label.textColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
+    self.label.textColor = [UIColor labelColor];
     self.label.text = self.labelText ? self.labelText : @"XD";
     self.label.font = [UIFont systemFontOfSize:120.0f weight:UIFontWeightMedium];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
