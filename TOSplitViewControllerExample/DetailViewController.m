@@ -24,10 +24,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor systemBackgroundColor];
+    
+    if (@available(iOS 13, *)) {
+        self.view.backgroundColor = UIColor.systemBackgroundColor;
+    }
+    else {
+        self.view.backgroundColor = UIColor.whiteColor;
+    }
 
     self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.label.textColor = [UIColor labelColor];
+    self.label.textColor = [UIColor blackColor];
     self.label.text = self.labelText ? self.labelText : @"XD";
     self.label.font = [UIFont systemFontOfSize:120.0f weight:UIFontWeightMedium];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin

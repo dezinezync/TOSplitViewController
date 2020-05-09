@@ -109,7 +109,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor systemBackgroundColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 
     self.horizontalSizeClass = self.view.traitCollection.horizontalSizeClass;
     self.visibleViewControllers = [NSMutableArray arrayWithArray:self.viewControllers];
@@ -123,7 +123,7 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
     NSMutableArray *separators = [NSMutableArray array];
     for (NSInteger i = 0; i < 2; i++) {
         UIView *view = [[UIView alloc] init];
-        view.backgroundColor = UIColor.separatorColor;
+        view.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.12f];
         [separators addObject:view];
     }
     self.separatorViews = [NSArray arrayWithArray:separators];
@@ -586,12 +586,33 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
 
         // Set the size classes for each controller
         UITraitCollection *horizontalSizeClassCompact = [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassCompact];
-        UITraitCollection *interfaceStyleFromSelf = [UITraitCollection traitCollectionWithUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        
+        UITraitCollection *interfaceStyleFromSelf = nil;
+        
+        if (@available(iOS 13, *)) {
+           interfaceStyleFromSelf = [UITraitCollection traitCollectionWithUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        }
 
-        UITraitCollection *primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
+        UITraitCollection *primaryTraitCollection = nil;
+        UITraitCollection *secondaryTraitCollection = nil;
+        
+        if (@available(iOS 13, *)) {
+            
+            primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
+            
+            secondaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[secondaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
+            
+        }
+        else {
+            
+            primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact]];
+            
+            secondaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[secondaryController.traitCollection, horizontalSizeClassCompact]];
+            
+        }
+        
         [self setOverrideTraitCollection:primaryTraitCollection forChildViewController:primaryController];
-
-        UITraitCollection *secondaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[secondaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
+        
         [self setOverrideTraitCollection:secondaryTraitCollection forChildViewController:secondaryController];
 
         // Update the layout
@@ -613,9 +634,26 @@ NSString * const TOSplitViewControllerNotificationSplitViewControllerKey =
         detailController.view.frame = frame;
 
         UITraitCollection *horizontalSizeClassCompact = [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassCompact];
-        UITraitCollection *interfaceStyleFromSelf = [UITraitCollection traitCollectionWithUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        
+        UITraitCollection *interfaceStyleFromSelf = nil;
+        
+        if (@available(iOS 13, *)) {
+           interfaceStyleFromSelf = [UITraitCollection traitCollectionWithUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        }
 
-        UITraitCollection *primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
+        UITraitCollection *primaryTraitCollection = nil;
+        
+        if (@available(iOS 13, *)) {
+            
+            primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact, interfaceStyleFromSelf]];
+        
+        }
+        else {
+            
+            primaryTraitCollection = [UITraitCollection traitCollectionWithTraitsFromCollections:@[primaryController.traitCollection, horizontalSizeClassCompact]];
+        
+        }
+
         [self setOverrideTraitCollection:primaryTraitCollection forChildViewController:primaryController];
 
         [primaryController.view layoutIfNeeded];
